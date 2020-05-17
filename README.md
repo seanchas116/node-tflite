@@ -35,3 +35,11 @@ interpreter.invoke();
 
 interpreter.outputs[0].copyTo(outputData);
 ```
+
+## Develop
+
+### Build .js and .d.ts
+
+```
+npm run dist
+```
