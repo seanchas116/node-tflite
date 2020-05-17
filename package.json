@@ -20,5 +20,11 @@
     "bindings": "^1.5.0",
     "node-addon-api": "^3.0.0"
   },
-  "gypfile": true
+  "gypfile": true,
+  "devDependencies": {
+    "@types/jest": "^25.2.2",
+    "jest": "^26.0.1",
+    "ts-jest": "^26.0.0",
+    "typescript": "^3.9.2"
+  }
 }
