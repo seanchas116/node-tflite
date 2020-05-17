@@ -69,12 +69,51 @@ public:
 private:
   static Napi::FunctionReference constructor;
 
-  Napi::Value GetInputTensorCount(const Napi::CallbackInfo &info);
+  Napi::Value GetInputTensorCount(const Napi::CallbackInfo &info) {
+    return Napi::Number::New(
+        info.Env(), TfLiteInterpreterGetInputTensorCount(_interpreter));
+  }
   Napi::Value GetInputTensor(const Napi::CallbackInfo &info);
-  Napi::Value ResizeInputTensor(const Napi::CallbackInfo &info);
-  Napi::Value AllocateTensors(const Napi::CallbackInfo &info);
-  Napi::Value Invoke(const Napi::CallbackInfo &info);
-  Napi::Value GetOutputTensorCount(const Napi::CallbackInfo &info);
+
+  Napi::Value ResizeInputTensor(const Napi::CallbackInfo &info) {
+    Napi::Number $inputIndex = info[0].As<Napi::Number>();
+    Napi::Array $inputDims = info[1].As<Napi::Array>();
+    int inputDimsSize = $inputDims.Length();
+    std::vector<int> inputDims;
+    for (int i = 0; i < inputDimsSize; ++i) {
+      inputDims.push_back(
+          Napi::Value($inputDims[i]).As<Napi::Number>().Int32Value());
+    }
+    if (TfLiteInterpreterResizeInputTensor(
+            _interpreter, $inputIndex.Int32Value(), inputDims.data(),
+            inputDims.size()) != kTfLiteOk) {
+      Napi::Error::New(info.Env(), "ResizeInputTensor failed")
+          .ThrowAsJavaScriptException();
+    }
+    return Napi::Value();
+  }
+
+  Napi::Value AllocateTensors(const Napi::CallbackInfo &info) {
+    if (TfLiteInterpreterAllocateTensors(_interpreter) != kTfLiteOk) {
+      Napi::Error::New(info.Env(), "AllocateTensors failed")
+          .ThrowAsJavaScriptException();
+    }
+    return Napi::Value();
+  }
+
+  Napi::Value Invoke(const Napi::CallbackInfo &info) {
+    if (TfLiteInterpreterInvoke(_interpreter) != kTfLiteOk) {
+      Napi::Error::New(info.Env(), "Invoke failed")
+          .ThrowAsJavaScriptException();
+    }
+    return Napi::Value();
+  }
+
+  Napi::Value GetOutputTensorCount(const Napi::CallbackInfo &info) {
+    return Napi::Number::New(
+        info.Env(), TfLiteInterpreterGetOutputTensorCount(_interpreter));
+  }
+
   Napi::Value GetOutputTensor(const Napi::CallbackInfo &info);
 
   TfLiteInterpreter *_interpreter;
