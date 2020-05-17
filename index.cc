@@ -80,15 +80,10 @@ private:
   TfLiteInterpreter *_interpreter;
 };
 
-Napi::String Method(const Napi::CallbackInfo &info) {
-  Napi::Env env = info.Env();
-  return Napi::String::New(env, "world");
+Napi::FunctionReference Interpreter::constructor;
+
+Napi::Object InitAll(Napi::Env env, Napi::Object exports) {
+  return Interpreter::Init(env, exports);
 }
 
-Napi::Object Init(Napi::Env env, Napi::Object exports) {
-  exports.Set(Napi::String::New(env, "hello"),
-              Napi::Function::New(env, Method));
-  return exports;
-}
-
-NODE_API_MODULE(hello, Init)
+NODE_API_MODULE(tflitejs, InitAll)
