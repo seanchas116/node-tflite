@@ -21,4 +21,15 @@ describe("Interpreter", () => {
       expect(input.byteSize).toBe(224 * 224 * 3);
     });
   });
+  describe("outputs", () => {
+    test("return output tensors", () => {
+      const interpreter = createInterpreter();
+      const outputs = interpreter.outputs;
+      expect(outputs.length).toBe(1);
+      const output = outputs[0];
+      expect(output.dims).toEqual([1, 1001]);
+      expect(output.type).toBe("UInt8");
+      expect(output.byteSize).toBe(1001);
+    });
+  });
 });
