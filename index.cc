@@ -116,13 +116,89 @@ private:
 
   Napi::Value GetOutputTensor(const Napi::CallbackInfo &info);
 
-  TfLiteInterpreter *_interpreter;
+  TfLiteInterpreter *_interpreter = nullptr;
 };
 
 Napi::FunctionReference Interpreter::constructor;
 
+class Tensor : public Napi::ObjectWrap<Tensor> {
+public:
+  static Napi::Object Init(Napi::Env env, Napi::Object exports) {
+    Napi::HandleScope scope(env);
+
+    Napi::Function func = DefineClass(
+        env, "Tensor",
+        {
+            InstanceMethod("type", &Tensor::Type),
+            InstanceMethod("dims", &Tensor::Dims),
+            InstanceMethod("byteSize", &Tensor::ByteSize),
+            InstanceMethod("copyFromBuffer", &Tensor::CopyFromBuffer),
+            InstanceMethod("copyToBuffer", &Tensor::CopyToBuffer),
+        });
+
+    constructor = Napi::Persistent(func);
+    constructor.SuppressDestruct();
+
+    exports.Set("Tensor", func);
+    return exports;
+  }
+
+  Tensor(const Napi::CallbackInfo &info) : Napi::ObjectWrap<Tensor>(info) {}
+
+private:
+  static Napi::FunctionReference constructor;
+
+  Napi::Value Type(const Napi::CallbackInfo &info) {
+    return Napi::Number::New(info.Env(), TfLiteTensorType(_tensor));
+  }
+
+  Napi::Value Dims(const Napi::CallbackInfo &info) {
+    auto $dims = Napi::Array::New(info.Env());
+    auto numDims = TfLiteTensorNumDims(_tensor);
+    for (int i = 0; i < numDims; ++i) {
+      auto dim = TfLiteTensorDim(_tensor, i);
+      $dims[i] = Napi::Number::New(info.Env(), dim);
+    }
+    return $dims;
+  }
+
+  Napi::Value ByteSize(const Napi::CallbackInfo &info) {
+    return Napi::Number::New(info.Env(), TfLiteTensorByteSize(_tensor));
+  }
+
+  Napi::Value Name(const Napi::CallbackInfo &info) {
+    return Napi::String::New(info.Env(), TfLiteTensorName(_tensor));
+  }
+
+  Napi::Value CopyFromBuffer(const Napi::CallbackInfo &info) {
+    Napi::Buffer<uint8_t> $buffer = info[0].As<Napi::Buffer<uint8_t>>();
+    if (TfLiteTensorCopyFromBuffer(_tensor, $buffer.Data(), $buffer.Length()) !=
+        kTfLiteOk) {
+      Napi::Error::New(info.Env(), "CopyFromBuffer failed")
+          .ThrowAsJavaScriptException();
+    }
+    return Napi::Value();
+  }
+
+  Napi::Value CopyToBuffer(const Napi::CallbackInfo &info) {
+    Napi::Buffer<uint8_t> $buffer = info[0].As<Napi::Buffer<uint8_t>>();
+    if (TfLiteTensorCopyToBuffer(_tensor, $buffer.Data(), $buffer.Length()) !=
+        kTfLiteOk) {
+      Napi::Error::New(info.Env(), "CopyToBuffer failed")
+          .ThrowAsJavaScriptException();
+    }
+    return Napi::Value();
+  }
+
+  TfLiteTensor *_tensor = nullptr;
+};
+
+Napi::FunctionReference Tensor::constructor;
+
 Napi::Object InitAll(Napi::Env env, Napi::Object exports) {
-  return Interpreter::Init(env, exports);
+  Interpreter::Init(env, exports);
+  Tensor::Init(env, exports);
+  return exports;
 }
 
 NODE_API_MODULE(tflitejs, InitAll)
