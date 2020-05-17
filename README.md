@@ -47,3 +47,8 @@ TODO
 ```
 npm run dist
 ```
+
+### How to build tflite
+
+- [Configure tensorflow](https://www.tensorflow.org/install/source)
+- `bazel build //tensorflow/lite/c:tensorflowlite_c`
