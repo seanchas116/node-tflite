@@ -2,6 +2,17 @@
 
 TensorFlow Lite for JavaScript (unofficial)
 
+## Supported Platforms
+
+- Node
+  - [x] macOS
+  - [ ] Windows
+  - [ ] Linux
+- WebAssembly
+  - [ ] MVP
+  - [ ] pthreads
+  - [ ] pthreads + SIMD
+
 ## Install
 
 ```
