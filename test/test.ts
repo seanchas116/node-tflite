@@ -13,8 +13,12 @@ describe("Interpreter", () => {
   describe("inputs", () => {
     test("return input tensors", () => {
       const interpreter = createInterpreter();
-      console.log(interpreter.inputs.map((i) => i.dims));
-      expect(true).toBe(false);
+      const inputs = interpreter.inputs;
+      expect(inputs.length).toBe(1);
+      const input = inputs[0];
+      expect(input.dims).toEqual([1, 224, 224, 3]);
+      expect(input.type).toBe("UInt8");
+      expect(input.byteSize).toBe(224 * 224 * 3);
     });
   });
 });

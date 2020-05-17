@@ -93,6 +93,10 @@ export class Tensor {
     return this._tensor.dims();
   }
 
+  get byteSize(): number {
+    return this._tensor.byteSize();
+  }
+
   copyFrom(data: ArrayBufferView) {
     this._tensor.copyFromBuffer(Buffer.from(data.buffer));
   }
