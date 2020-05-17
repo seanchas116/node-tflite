@@ -1,4 +1,7 @@
 {
+  "variables": {
+    "dll_files": ["tflite/windows_x86_64/tensorflowlite_c.dll"]
+  },
   "targets": [
     {
       "target_name": "tflitejs",
@@ -13,8 +16,15 @@
       "conditions": [
         ['OS=="mac"', {
           "libraries": [ "<(module_root_dir)/tflite/osx_x86_64/lib/libtensorflow-lite.a" ],
-        }]
-      ]
-    }
-  ]
+        }],
+        ['OS=="win"', {
+          "libraries": [ "<(module_root_dir)/tflite/windows_x86_64/tensorflowlite_c.dll.if.lib" ],
+          "copies":[{
+            "destination": "./build/Release",
+            "files": [ "<(module_root_dir)/tflite/windows_x86_64/tensorflowlite_c.dll" ],
+          }],
+        }],
+      ],
+    },
+  ],
 }
