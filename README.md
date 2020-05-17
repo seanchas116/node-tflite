@@ -36,6 +36,10 @@ interpreter.invoke();
 interpreter.outputs[0].copyTo(outputData);
 ```
 
+## Benchmark
+
+TODO
+
 ## Develop
 
 ### Build .js and .d.ts
