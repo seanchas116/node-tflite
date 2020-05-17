@@ -10,8 +10,8 @@ TensorFlow Lite for JavaScript (unofficial)
   - [ ] Linux
 - WebAssembly
   - [ ] MVP
-  - [ ] pthreads
-  - [ ] pthreads + SIMD
+  - [ ] Threads
+  - [ ] Threads + SIMD
 
 ## Install
 
