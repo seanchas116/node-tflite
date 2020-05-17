@@ -34,8 +34,11 @@ export interface InterpreterOptions {
 export class Interpreter {
   private _interpreter: any;
 
-  constructor(model: ArrayBuffer, options: InterpreterOptions) {
-    this._interpreter = new addon.Interpreter(Buffer.from(model), options);
+  constructor(model: ArrayBufferView, options: InterpreterOptions = {}) {
+    this._interpreter = new addon.Interpreter(
+      Buffer.from(model.buffer),
+      options
+    );
   }
 
   get inputs(): Tensor[] {
