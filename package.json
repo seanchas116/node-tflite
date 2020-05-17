@@ -4,7 +4,8 @@
   "description": "TensorFlow Lite bindings for JavaScript",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "dist": "tsc index.ts --target es5 --module commonjs --strict --declaration"
   },
   "repository": {
     "type": "git",
