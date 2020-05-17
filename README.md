@@ -6,7 +6,7 @@ TensorFlow Lite for JavaScript (unofficial)
 
 - Node
   - [x] macOS
-  - [ ] Windows
+  - [x] Windows
   - [ ] Linux
 - WebAssembly
   - [ ] MVP
