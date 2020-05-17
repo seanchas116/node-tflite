@@ -87,7 +87,7 @@ public:
         {
             InstanceMethod("getInputTensorCount",
                            &Interpreter::GetInputTensorCount),
-            InstanceMethod("getInputTesor", &Interpreter::GetInputTensor),
+            InstanceMethod("getInputTensor", &Interpreter::GetInputTensor),
             InstanceMethod("resizeInputTensor",
                            &Interpreter::ResizeInputTensor),
             InstanceMethod("allocateTensors", &Interpreter::AllocateTensors),
