@@ -4,7 +4,7 @@
   "description": "TensorFlow Lite bindings for JavaScript",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/seanchas116/tflite-js/issues"
   },
-  "homepage": "https://github.com/seanchas116/tflite-js#readme"
+  "homepage": "https://github.com/seanchas116/tflite-js#readme",
+  "dependencies": {
+    "bindings": "^1.5.0",
+    "nan": "^2.14.1"
+  },
+  "gypfile": true
 }
