@@ -1,7 +1,7 @@
 {
     "targets": [
         {
-            "target_name": "tflitejs",
+            "target_name": "node_tflite",
             "cflags!": ["-fno-exceptions"],
             "cflags_cc!": ["-fno-exceptions"],
             "sources": ["index.cc"],

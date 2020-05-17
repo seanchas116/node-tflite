@@ -207,4 +207,4 @@ Napi::Object InitAll(Napi::Env env, Napi::Object exports) {
   return exports;
 }
 
-NODE_API_MODULE(tflitejs, InitAll)
+NODE_API_MODULE(node_tflite, InitAll)

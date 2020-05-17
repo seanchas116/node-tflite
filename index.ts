@@ -1,4 +1,4 @@
-const addon = require("bindings")("tflitejs");
+const addon = require("bindings")("node_tflite");
 
 export type Type =
   | "NoType"
