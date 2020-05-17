@@ -10,6 +10,11 @@
         "tflite/include"
       ],
       'defines': [ 'NAPI_DISABLE_CPP_EXCEPTIONS' ],
+      "conditions": [
+        ['OS=="mac"', {
+          "libraries": [ "<(module_root_dir)/tflite/osx_x86_64/lib/libtensorflow-lite.a" ],
+        }]
+      ]
     }
   ]
 }

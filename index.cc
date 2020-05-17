@@ -109,29 +109,18 @@ public:
     Napi::Env env = info.Env();
     Napi::HandleScope scope(env);
 
-    int length = info.Length();
-
-    if (length < 2) {
-      Napi::TypeError::New(env, "2 arguments expected")
-          .ThrowAsJavaScriptException();
-    }
-
-    if (!info[0].IsBuffer()) {
-      Napi::TypeError::New(env, "Buffer expected").ThrowAsJavaScriptException();
-      return;
-    }
-    if (!info[1].IsObject()) {
-      Napi::TypeError::New(env, "Object expected").ThrowAsJavaScriptException();
-      return;
-    }
-
     Napi::Buffer<uint8_t> $buffer = info[0].As<Napi::Buffer<uint8_t>>();
     Napi::Object $options = info[1].As<Napi::Object>();
 
-    Napi::Number $numThreads = $options.Get("numThreads").As<Napi::Number>();
+    int numThreads = 0;
+    if ($options.Has("numThreads")) {
+      numThreads = $options.Get("numThreads").As<Napi::Number>().Int32Value();
+    }
 
     auto options = TfLiteInterpreterOptionsCreate();
-    TfLiteInterpreterOptionsSetNumThreads(options, $numThreads.Int32Value());
+    if (0 < numThreads) {
+      TfLiteInterpreterOptionsSetNumThreads(options, numThreads);
+    }
 
     auto model = TfLiteModelCreate($buffer.Data(), $buffer.Length());
     _interpreter = TfLiteInterpreterCreate(model, options);
