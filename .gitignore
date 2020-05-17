@@ -111,4 +111,6 @@ temp/
 # End of https://www.gitignore.io/api/node
 
 /build
-!/tflite/**/*
+!/tflite/**/*.dylib
+!/tflite/**/*.dll
+!/tflite/**/*.lib
