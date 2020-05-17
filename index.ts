@@ -1,4 +1,4 @@
-var addon = require("bindings")("tflitejs");
+const addon = require("bindings")("tflitejs");
 
 export type Type =
   | "NoType"
@@ -13,7 +13,7 @@ export type Type =
   | "Int8"
   | "Float16";
 
-export const types: Type[] = [
+const types: Type[] = [
   "NoType",
   "Float32",
   "Int32",

@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Tensor = exports.Interpreter = exports.types = void 0;
+exports.Tensor = exports.Interpreter = void 0;
 var addon = require("bindings")("tflitejs");
-exports.types = [
+var types = [
     "NoType",
     "Float32",
     "Int32",
@@ -76,7 +76,7 @@ var Tensor = /** @class */ (function () {
     }
     Object.defineProperty(Tensor.prototype, "type", {
         get: function () {
-            return exports.types[this._tensor.type()];
+            return types[this._tensor.type()];
         },
         enumerable: false,
         configurable: true

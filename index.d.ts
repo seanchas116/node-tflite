@@ -1,5 +1,4 @@
 export declare type Type = "NoType" | "Float32" | "Int32" | "UInt8" | "Int64" | "String" | "Bool" | "Int16" | "Complex64" | "Int8" | "Float16";
-export declare const types: Type[];
 export interface InterpreterOptions {
     numThreads?: number;
 }
