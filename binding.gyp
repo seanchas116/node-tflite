@@ -2,10 +2,13 @@
   "targets": [
     {
       "target_name": "tflitejs",
+      "cflags!": [ "-fno-exceptions" ],
+      "cflags_cc!": [ "-fno-exceptions" ],
       "sources": [ "index.cc" ],
       "include_dirs": [
-        "<!(node -e \"require('nan')\")"
-      ]
+        "<!@(node -p \"require('node-addon-api').include\")"
+      ],
+      'defines': [ 'NAPI_DISABLE_CPP_EXCEPTIONS' ],
     }
   ]
 }

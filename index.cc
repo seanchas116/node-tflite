@@ -1,15 +1,14 @@
-#include <nan.h>
+#include <napi.h>
 
-void Method(const Nan::FunctionCallbackInfo<v8::Value> &info) {
-  info.GetReturnValue().Set(Nan::New("world").ToLocalChecked());
+Napi::String Method(const Napi::CallbackInfo &info) {
+  Napi::Env env = info.Env();
+  return Napi::String::New(env, "world");
 }
 
-void Init(v8::Local<v8::Object> exports) {
-  v8::Local<v8::Context> context = exports->CreationContext();
-  exports->Set(context, Nan::New("hello").ToLocalChecked(),
-               Nan::New<v8::FunctionTemplate>(Method)
-                   ->GetFunction(context)
-                   .ToLocalChecked());
+Napi::Object Init(Napi::Env env, Napi::Object exports) {
+  exports.Set(Napi::String::New(env, "hello"),
+              Napi::Function::New(env, Method));
+  return exports;
 }
 
-NODE_MODULE(tflitejs, Init)
+NODE_API_MODULE(hello, Init)
