@@ -23,6 +23,7 @@
   "gypfile": true,
   "devDependencies": {
     "@types/jest": "^25.2.2",
+    "canvas": "^2.6.1",
     "jest": "^26.0.1",
     "ts-jest": "^26.0.0",
     "typescript": "^3.9.2"
