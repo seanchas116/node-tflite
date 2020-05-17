@@ -1,28 +1,23 @@
-# tflite-js
+# node-tflite
 
-TensorFlow Lite for JavaScript (unofficial)
+TensorFlow Lite bindings for Node.js
 
 ## Supported Platforms
 
-- Node
-  - [x] macOS
-  - [x] Windows
-  - [ ] Linux
-- WebAssembly
-  - [ ] MVP
-  - [ ] Threads
-  - [ ] Threads + SIMD
+- [x] macOS
+- [x] Windows
+- [ ] Linux
 
 ## Install
 
 ```
-npm install tflitejs
+npm install node-tflite
 ```
 
 ## Use
 
 ```js
-import { Interpreter } from "tflitejs";
+import { Interpreter } from "node-tflite";
 
 const modelData = fs.readFileSync(modelPath);
 const interpreter = new Interpreter(modelData);

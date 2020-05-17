@@ -1,7 +1,7 @@
 {
-  "name": "@seanchas116/tflite",
+  "name": "node-tflite",
   "version": "0.0.1",
-  "description": "TensorFlow Lite bindings for JavaScript",
+  "description": "TensorFlow Lite bindings for Node.js",
   "main": "index.js",
   "scripts": {
     "test": "jest",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/seanchas116/tflite-js.git"
+    "url": "git+https://github.com/seanchas116/node-tflite.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/seanchas116/tflite-js/issues"
+    "url": "https://github.com/seanchas116/node-tflite/issues"
   },
-  "homepage": "https://github.com/seanchas116/tflite-js#readme",
+  "homepage": "https://github.com/seanchas116/node-tflite#readme",
   "dependencies": {
     "bindings": "^1.5.0",
     "node-addon-api": "^3.0.0"
