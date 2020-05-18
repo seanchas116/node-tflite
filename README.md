@@ -6,7 +6,7 @@ TensorFlow Lite bindings for Node.js
 
 - [x] macOS
 - [x] Windows
-- [ ] Linux
+- [x] Linux
 
 ## Install
 
