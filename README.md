@@ -37,6 +37,18 @@ TODO
 
 ## Develop
 
+### Setup
+
+```
+npm install
+```
+
+### Test
+
+```
+npm test
+```
+
 ### Build .js and .d.ts
 
 ```
