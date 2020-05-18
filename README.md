@@ -55,7 +55,7 @@ npm test
 npm run dist
 ```
 
-### How to build tflite
+### How to build tensorflowlite_c library
 
 - [Configure tensorflow](https://www.tensorflow.org/install/source)
 - `bazel build //tensorflow/lite/c:tensorflowlite_c`
