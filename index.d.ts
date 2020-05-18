@@ -14,9 +14,10 @@ export declare class Interpreter {
     invoke(): void;
 }
 export declare class Tensor {
-    interpreter: Interpreter;
+    private _interpreter;
     private _tensor;
     constructor(interpreter: Interpreter, _tensor: any);
+    get interpreter(): Interpreter;
     get type(): Type;
     get name(): string;
     get dims(): number[];

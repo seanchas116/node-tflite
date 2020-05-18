@@ -85,12 +85,16 @@ export class Interpreter {
 }
 
 export class Tensor {
-  interpreter: Interpreter;
+  private _interpreter: Interpreter;
   private _tensor: any;
 
   constructor(interpreter: Interpreter, _tensor: any) {
-    this.interpreter = interpreter;
+    this._interpreter = interpreter;
     this._tensor = _tensor;
+  }
+
+  get interpreter(): Interpreter {
+    return this._interpreter;
   }
 
   get type(): Type {
