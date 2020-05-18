@@ -1,6 +1,6 @@
 # node-tflite
 
-TensorFlow Lite bindings for Node.js
+TensorFlow Lite (2.2) bindings for Node.js
 
 ## Supported Platforms
 
