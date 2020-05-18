@@ -73,3 +73,37 @@ describe("Interpreter", () => {
     });
   });
 });
+
+describe("Tensor", () => {
+  describe("copyTo", () => {
+    test("throws if tensor is not allocated", async () => {
+      const interpreter = createInterpreter();
+      const inputData = await getImageInput(224);
+
+      expect(() => interpreter.inputs[0].copyFrom(inputData)).toThrowError();
+    });
+    test("throws if size is different", () => {
+      const interpreter = createInterpreter();
+      interpreter.allocateTensors();
+
+      expect(() =>
+        interpreter.inputs[0].copyFrom(new Uint8Array([1, 2, 3]))
+      ).toThrowError();
+    });
+  });
+
+  describe("copyFrom", () => {
+    test("throws if tensor is not allocated", async () => {
+      const interpreter = createInterpreter();
+      const outputData = new Uint8Array(1001);
+      expect(() => interpreter.outputs[0].copyTo(outputData)).toThrowError();
+    });
+    test("throws if size is different", () => {
+      const interpreter = createInterpreter();
+      interpreter.allocateTensors();
+
+      const outputData = new Uint8Array(10);
+      expect(() => interpreter.inputs[0].copyFrom(outputData)).toThrowError();
+    });
+  });
+});
