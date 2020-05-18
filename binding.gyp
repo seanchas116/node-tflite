@@ -28,6 +28,16 @@
                         "files": ["<(module_root_dir)/tflite/windows_x86_64/tensorflowlite_c.dll"],
                     }],
                 }],
+                ['OS=="linux"', {
+                     "libraries": [
+                        "<(module_root_dir)/tflite/linux_x86_64/libtensorflowlite_c.so",
+                        "-Wl,-rpath,\$$ORIGIN"
+                    ],
+                    "copies":[{
+                        "destination": "./build/Release",
+                        "files": ["<(module_root_dir)/tflite/linux_x86_64/libtensorflowlite_c.so"],
+                    }],
+                }],
             ],
         },
     ],
