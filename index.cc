@@ -124,6 +124,11 @@ public:
 
     auto model = TfLiteModelCreate($buffer.Data(), $buffer.Length());
     _interpreter = TfLiteInterpreterCreate(model, options);
+    if (!_interpreter) {
+      Napi::Error::New(info.Env(), "Failed to create Interpreter")
+          .ThrowAsJavaScriptException();
+      return;
+    }
 
     TfLiteModelDelete(model);
     TfLiteInterpreterOptionsDelete(options);

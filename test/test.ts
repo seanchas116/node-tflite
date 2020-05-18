@@ -33,6 +33,11 @@ async function getImageInput(size: number) {
 }
 
 describe("Interpreter", () => {
+  describe("constructor", () => {
+    test("throws if model data is wrong", () => {
+      expect(() => new Interpreter(new Uint8Array([1, 2, 3]))).toThrowError();
+    });
+  });
   describe("inputs", () => {
     test("return input tensors", () => {
       const interpreter = createInterpreter();
