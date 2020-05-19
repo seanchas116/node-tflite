@@ -72,7 +72,7 @@ class FaceDetector {
     this.interpreter.allocateTensors();
   }
 
-  detect(input: HTMLVideoElement): Box | undefined {
+  detect(input: CanvasImageSource): Box | undefined {
     this.inputContext.drawImage(input, 0, 0, this.inputSize, this.inputSize);
     const rgbFloat = canvasToRGBFloat(this.inputContext);
 
@@ -108,7 +108,12 @@ class FaceDetector {
     const right = left + width;
     const bottom = top + height;
 
-    return [left, top, right, bottom];
+    return [
+      (left / this.inputSize) * (input.width as number),
+      (top / this.inputSize) * (input.height as number),
+      (right / this.inputSize) * (input.width as number),
+      (bottom / this.inputSize) * (input.height as number),
+    ];
   }
 }
 
@@ -128,8 +133,23 @@ const init = async () => {
 
   const faceDetector = new FaceDetector();
 
+  const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+  canvas.width = 640;
+  canvas.height = 480;
+  const context = canvas.getContext("2d")!;
+
   const animate = () => {
-    console.log(faceDetector.detect(video));
+    const rect = faceDetector.detect(video);
+
+    context.drawImage(video, 0, 0);
+    if (rect) {
+      context.strokeRect(
+        rect[0],
+        rect[1],
+        rect[2] - rect[0],
+        rect[3] - rect[1]
+      );
+    }
 
     requestAnimationFrame(animate);
   };
