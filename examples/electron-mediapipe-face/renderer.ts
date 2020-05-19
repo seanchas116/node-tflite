@@ -49,6 +49,15 @@ function generateAnchors(width: number, height: number): [number, number][] {
   return anchors;
 }
 
+type Box = [number, number, number, number]; // left, top, right, bottom
+
+function nonMaxSupression(
+  boxes: Box[],
+  scores: number[],
+  iouThreshold: number,
+  scoreThreshold: number
+) {}
+
 class FaceDetector {
   private inputSize = 128;
   private inputCanvas: HTMLCanvasElement;
@@ -70,22 +79,44 @@ class FaceDetector {
     this.interpreter.allocateTensors();
   }
 
-  detect(input: HTMLVideoElement) {
+  detect(input: HTMLVideoElement): Box | undefined {
     this.inputContext.drawImage(input, 0, 0, this.inputSize, this.inputSize);
     const rgbFloat = canvasToRGBFloat(this.inputContext);
 
     this.interpreter.inputs[0].copyFrom(rgbFloat);
     this.interpreter.invoke();
 
-    const coordinatesData = new Float32Array(896 * 16);
-    const scoreData = new Float32Array(896);
+    const coordinatesData = new Float32Array(this.anchors.length * 16);
+    const scoreData = new Float32Array(this.anchors.length);
 
     this.interpreter.outputs[0].copyTo(coordinatesData);
     this.interpreter.outputs[1].copyTo(scoreData);
 
-    for (let i = 0; i < scoreData.length; ++i) {
+    for (let i = 0; i < this.anchors.length; ++i) {
       scoreData[i] = sigmoid(scoreData[i]);
     }
+
+    const maxScore = Math.max(...Array.from(scoreData));
+    console.log(maxScore);
+    if (maxScore < 0.75) {
+      return;
+    }
+
+    // Find up to 1 faces
+    const bestIndex = scoreData.indexOf(maxScore);
+
+    const centerX =
+      coordinatesData[bestIndex * 16] + this.anchors[bestIndex][0];
+    const centerY =
+      coordinatesData[bestIndex * 16 + 1] + this.anchors[bestIndex][1];
+    const width = coordinatesData[bestIndex * 16 + 2];
+    const height = coordinatesData[bestIndex * 16 + 3];
+    const left = centerX - width / 2;
+    const top = centerY - height / 2;
+    const right = left + width;
+    const bottom = top + height;
+
+    return [left, top, right, bottom];
   }
 }
 
@@ -106,7 +137,7 @@ const init = async () => {
   const faceDetector = new FaceDetector();
 
   const animate = () => {
-    faceDetector.detect(video);
+    console.log(faceDetector.detect(video));
 
     requestAnimationFrame(animate);
   };
