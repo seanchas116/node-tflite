@@ -19,7 +19,7 @@ npm install node-tflite
 ```js
 import { Interpreter } from "node-tflite";
 
-const modelData = fs.readFileSync(modelPath);
+const modelData = fs.readFileSync("/path/to/model.tflite");
 const interpreter = new Interpreter(modelData);
 
 interpreter.allocateTensors();
