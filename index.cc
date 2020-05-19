@@ -122,7 +122,8 @@ public:
       TfLiteInterpreterOptionsSetNumThreads(options, numThreads);
     }
 
-    auto model = TfLiteModelCreate($buffer.Data(), $buffer.Length());
+    _modelData = std::vector<uint8_t>($buffer.Data(), $buffer.Data() + $buffer.Length());
+    auto model = TfLiteModelCreate(_modelData.data(), _modelData.size());
     _interpreter = TfLiteInterpreterCreate(model, options);
     if (!_interpreter) {
       Napi::Error::New(info.Env(), "Failed to create Interpreter")
@@ -201,6 +202,7 @@ private:
     return $tensor;
   }
 
+  std::vector<uint8_t> _modelData;
   TfLiteInterpreter *_interpreter = nullptr;
 };
 
