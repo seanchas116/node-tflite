@@ -8,6 +8,7 @@ It can run TensorFlow Lite models (`.tflite`) in Node.js environment (including 
 
 - node-tflite can run TensorFlow Lite models (`.tflite`) while TensorFlow.js cannot (you'll need a different way of model conversion in TensorFlow.js)
 - node-tflite may or may not be faster than TensorFlow.js
+  - I didn't run any benchmarks yet, but the example below runs faster than TF.js
 - node-tflite only supports model inference, not training
 - node-tflite doesn't support Web environments
 - node-tflite doesn't support GPU execution (now) while TensorFlow.js supports through WebGL or tfjs-node-gpu
