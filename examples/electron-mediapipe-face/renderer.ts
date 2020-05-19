@@ -137,6 +137,8 @@ const init = async () => {
   canvas.width = 640;
   canvas.height = 480;
   const context = canvas.getContext("2d")!;
+  context.strokeStyle = "red";
+  context.lineWidth = 2;
 
   const animate = () => {
     const rect = faceDetector.detect(video);
