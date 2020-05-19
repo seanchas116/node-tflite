@@ -115,5 +115,5 @@ temp/
 !/tflite/**/*.dll
 !/tflite/**/*.lib
 
-/example
+/examples
 /test
