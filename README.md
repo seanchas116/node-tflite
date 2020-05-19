@@ -31,6 +31,12 @@ interpreter.invoke();
 interpreter.outputs[0].copyTo(outputData);
 ```
 
+## Examples
+
+- [BlazeFace face detection in Electron](https://github.com/seanchas116/node-tflite/tree/master/examples/electron-mediapipe-face)
+  - Uses the BlazeFace model from [MediaPipe](https://github.com/google/mediapipe)
+  - It runs in 60 FPS in MacBook Pro 16'' 2019, which is faster than [BlazeFace TF.js demo](https://storage.googleapis.com/tfjs-models/demos/blazeface/index.html)
+
 ## Benchmark
 
 TODO
