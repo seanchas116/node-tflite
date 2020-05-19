@@ -51,13 +51,6 @@ function generateAnchors(width: number, height: number): [number, number][] {
 
 type Box = [number, number, number, number]; // left, top, right, bottom
 
-function nonMaxSupression(
-  boxes: Box[],
-  scores: number[],
-  iouThreshold: number,
-  scoreThreshold: number
-) {}
-
 class FaceDetector {
   private inputSize = 128;
   private inputCanvas: HTMLCanvasElement;
@@ -97,7 +90,6 @@ class FaceDetector {
     }
 
     const maxScore = Math.max(...Array.from(scoreData));
-    console.log(maxScore);
     if (maxScore < 0.75) {
       return;
     }
