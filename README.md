@@ -1,11 +1,12 @@
 # node-tflite
 
-node-tflite is an (unofficial) TensorFlow Lite 2.2 bindings for Node.js.
-It can run TensorFlow Lite models (.tflite) in Node.js environment (including Electron).
+node-tflite is an unofficial TensorFlow Lite 2.2 bindings for Node.js.
+
+It can run TensorFlow Lite models (`.tflite`) in Node.js environment (including Electron).
 
 ## Differences to TensorFlow.js
 
-- node-tflite can run TensorFlow Lite models (.tflite) while TensorFlow.js cannot (you'll need a different way of model conversion in TensorFlow.js)
+- node-tflite can run TensorFlow Lite models (`.tflite`) while TensorFlow.js cannot (you'll need a different way of model conversion in TensorFlow.js)
 - node-tflite may or may not be faster than TensorFlow.js
 - node-tflite only supports model inference, not training
 - node-tflite doesn't support Web environments
