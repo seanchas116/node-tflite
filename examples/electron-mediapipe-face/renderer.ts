@@ -2,8 +2,6 @@ import { Interpreter } from "node-tflite";
 import fs from "fs";
 import path from "path";
 
-const faceModelPath = path.resolve(__dirname, "face_detection_front.tflite");
-
 function canvasToRGBFloat(context: CanvasRenderingContext2D) {
   const { width, height } = context.canvas;
   const data = context.getImageData(0, 0, width, height);
@@ -17,6 +15,54 @@ function canvasToRGBFloat(context: CanvasRenderingContext2D) {
   }
 
   return rgbFloat;
+}
+
+function sigmoid(x: number) {
+  return 1 / (1 + Math.exp(-x));
+}
+
+class FaceDetector {
+  private inputCanvas: HTMLCanvasElement;
+  private inputContext: CanvasRenderingContext2D;
+  private interpreter: Interpreter;
+
+  constructor() {
+    this.inputCanvas = document.createElement("canvas");
+    this.inputCanvas.width = 128;
+    this.inputCanvas.height = 128;
+    this.inputContext = this.inputCanvas.getContext("2d")!;
+
+    const faceModelPath = path.resolve(
+      __dirname,
+      "face_detection_front.tflite"
+    );
+    this.interpreter = new Interpreter(fs.readFileSync(faceModelPath));
+    this.interpreter.allocateTensors();
+  }
+
+  detect(input: HTMLVideoElement) {
+    this.inputContext.drawImage(
+      input,
+      0,
+      0,
+      this.inputCanvas.width,
+      this.inputCanvas.height
+    );
+    const rgbFloat = canvasToRGBFloat(this.inputContext);
+
+    this.interpreter.inputs[0].copyFrom(rgbFloat);
+    this.interpreter.invoke();
+
+    const coordinatesData = new Float32Array(896 * 16);
+    const scoreData = new Float32Array(896);
+
+    this.interpreter.outputs[0].copyTo(coordinatesData);
+    this.interpreter.outputs[1].copyTo(scoreData);
+
+    for (let i = 0; i < scoreData.length; ++i) {
+      scoreData[i] = sigmoid(scoreData[i]);
+    }
+  }
 }
 
 const init = async () => {
@@ -33,33 +79,14 @@ const init = async () => {
   video.srcObject = stream;
   video.play();
 
-  const inputCanvas = document.createElement("canvas");
-  inputCanvas.width = 128;
-  inputCanvas.height = 128;
-  const inputContext = inputCanvas.getContext("2d")!;
+  const faceDetector = new FaceDetector();
 
-  const interpreter = new Interpreter(fs.readFileSync(faceModelPath));
-  interpreter.allocateTensors();
+  const animate = () => {
+    faceDetector.detect(video);
 
-  const updateCanvas = () => {
-    inputContext.drawImage(video, 0, 0, inputCanvas.width, inputCanvas.height);
-    const rgbFloat = canvasToRGBFloat(inputContext);
-
-    interpreter.inputs[0].copyFrom(rgbFloat);
-    interpreter.invoke();
-
-    const coordinatesData = new Float32Array(896 * 16);
-    const scoreData = new Float32Array(896);
-
-    interpreter.outputs[0].copyTo(coordinatesData);
-    interpreter.outputs[1].copyTo(scoreData);
-
-    console.log(coordinatesData);
-    console.log(scoreData);
-
-    requestAnimationFrame(updateCanvas);
+    requestAnimationFrame(animate);
   };
-  updateCanvas();
+  animate();
 };
 
 init();
