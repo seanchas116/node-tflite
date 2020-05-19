@@ -1,6 +1,6 @@
 # node-tflite
 
-node-tflite is an (unofficial) TensorFlow Lite (2.2) bindings for Node.js.
+node-tflite is an (unofficial) TensorFlow Lite 2.2 bindings for Node.js.
 It can run TensorFlow Lite models (.tflite) in Node.js environment (including Electron).
 
 ## Differences to TensorFlow.js
