@@ -1,19 +1,6 @@
 const addon = require("bindings")("node_tflite");
 
-export type Type =
-  | "NoType"
-  | "Float32"
-  | "Int32"
-  | "UInt8"
-  | "Int64"
-  | "String"
-  | "Bool"
-  | "Int16"
-  | "Complex64"
-  | "Int8"
-  | "Float16";
-
-const types: Type[] = [
+const types = [
   "NoType",
   "Float32",
   "Int32",
@@ -25,7 +12,9 @@ const types: Type[] = [
   "Complex64",
   "Int8",
   "Float16",
-];
+] as const;
+
+export type Type = typeof types[number];
 
 export interface InterpreterOptions {
   numThreads?: number;
