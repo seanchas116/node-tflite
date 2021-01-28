@@ -13,7 +13,7 @@
     "node-tflite": "file:../.."
   },
   "devDependencies": {
-    "electron": "^9.0.0",
+    "electron": "^9.4.0",
     "typescript": "^3.9.2"
   }
 }
