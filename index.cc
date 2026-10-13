@@ -156,6 +156,13 @@ private:
 
   Napi::Value ResizeInputTensor(const Napi::CallbackInfo &info) {
     Napi::Number $inputIndex = info[0].As<Napi::Number>();
+    int inputIndex = $inputIndex.Int32Value();
+    if (inputIndex < 0 ||
+        inputIndex >= TfLiteInterpreterGetInputTensorCount(_interpreter)) {
+      Napi::RangeError::New(info.Env(), "inputIndex out of range")
+          .ThrowAsJavaScriptException();
+      return Napi::Value();
+    }
     Napi::Array $inputDims = info[1].As<Napi::Array>();
     int inputDimsSize = $inputDims.Length();
     std::vector<int> inputDims;
@@ -164,7 +171,7 @@ private:
           Napi::Value($inputDims[i]).As<Napi::Number>().Int32Value());
     }
     if (TfLiteInterpreterResizeInputTensor(
-            _interpreter, $inputIndex.Int32Value(), inputDims.data(),
+            _interpreter, inputIndex, inputDims.data(),
             inputDims.size()) != kTfLiteOk) {
       Napi::Error::New(info.Env(), "ResizeInputTensor failed")
           .ThrowAsJavaScriptException();
